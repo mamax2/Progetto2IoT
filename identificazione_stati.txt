@@ -16,6 +16,7 @@ close -> stato che entra in funzione quando l'utente preme 'Chiudi' (o dopo il t
 
 
 full -> stato che può entrare in funzione quando il contenitore è pieno (durante lo stato di open, il sensore controlla se il contenitore si riempie, se si riempie entra in questo stato) e si attende lo svuotamento da parte degli operatori, finche non viene svuotato il contenitore non accetta più rifiuti
+- il coperchio viene chiuso (bottone apri bloccato fino allo svuotamento).
 - l'LCD Utente visualizza "CONTENITORE PIENO", L1 si spegne e L2 si accende.
 
 emptying -> stato che si verifica quando l'operatore preme "svuota" dalla dashboard.
