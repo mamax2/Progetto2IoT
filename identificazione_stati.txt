@@ -1,4 +1,4 @@
-STATI
+DIAGRAMMA DEGLI STATI 1
 idle -> stato iniziale dove non fa niente
 - porta chiusa
 - led verde L1 acceso
@@ -22,8 +22,17 @@ emptying -> stato che si verifica quando l'operatore preme "svuota" dalla dashbo
 - la Porta si apre sul lato opposto (motore a -90°) per T3 secondi per simulare lo svuotamento, e poi si richiude
 - dopo aver finito lo svuotamento, il contenitore torna in idle
 
+DIAGRAMMA DEGLI STATI 2 (gestione problema)
 problem -> stato che si attiva quando il sensore della temperatura rileva una temp sopra una certa soglia MAXTEMP per un intervallo di tempo MAXTEMPTIME
 - il contenitore smette di accettare rifiuti finche l'operatore dalla gui preme "ripristina"
 - L'LCD Utente visualizza "PROBLEMA RILEVATO", L1 si spegne e L2 si accende.
 - Se un utente stava inserendo rifiuti, il processo viene interrotto e la Porta si chiude.
 - Gli operatori possono ripristinare lo stato normale del contenitore premendo il pulsante Ripristina nella GUI.
+Si passa da problem a working quando l'operatore preme il pulsante 'ripristina' dalla dashboard
+
+working -> stato di normale funzionamento, vi è un contatore che viene resettato costantemente tutte le volte che la temperatura non supera MAXTEMP, 
+quando invece la temperatura rilevata supera MAXTEMP il contatore non viene resettato e quando supera il valore di MAXTEMPTIME, passa allo stato di problem.
+
+
+
+
