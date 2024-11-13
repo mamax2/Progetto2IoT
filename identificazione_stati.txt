@@ -1,0 +1,29 @@
+STATI
+idle -> stato iniziale dove non fa niente
+- porta chiusa
+- led verde L1 acceso
+- schermo LCD con testo "PREMI APRI PER INSERIRE RIFIUTI"
+
+sleeping -> stato che entra in funzione se non rileva utenti  per un certo intervallo di tempo Tsleep
+- solo il LED L1 (o L2 se già acceso) resta attivo.
+- Il sistema si riattiva quando un utente viene rilevato dal Rilevatore Utente.
+
+open -> stato che entra in funzione quando l'utente preme 'Apri' a Porta si apre (il motore ruota di +90°), e l’utente può inserire il rifiuto
+- L'LCD Utente visualizza "PREMI CHIUDI QUANDO FINITO".
+- L’utente ha un tempo massimo T1 per inserire il rifiuto, dopo il quale la porta si chiude automaticamente.
+
+close -> stato che entra in funzione quando l'utente preme 'Chiudi' (o dopo il timeout), la porta si chiude (motore torna a 0°), e il messaggio "RIFIUTO RICEVUTO" viene mostrato per T2 secondi prima di tornare allo stato di idle.
+
+
+full -> stato che può entrare in funzione quando il contenitore è pieno (durante lo stato di open, il sensore controlla se il contenitore si riempie, se si riempie entra in questo stato) e si attende lo svuotamento da parte degli operatori, finche non viene svuotato il contenitore non accetta più rifiuti
+- l'LCD Utente visualizza "CONTENITORE PIENO", L1 si spegne e L2 si accende.
+
+emptying -> stato che si verifica quando l'operatore preme "svuota" dalla dashboard.
+- la Porta si apre sul lato opposto (motore a -90°) per T3 secondi per simulare lo svuotamento, e poi si richiude
+- dopo aver finito lo svuotamento, il contenitore torna in idle
+
+problem -> stato che si attiva quando il sensore della temperatura rileva una temp sopra una certa soglia MAXTEMP per un intervallo di tempo MAXTEMPTIME
+- il contenitore smette di accettare rifiuti finche l'operatore dalla gui preme "ripristina"
+- L'LCD Utente visualizza "PROBLEMA RILEVATO", L1 si spegne e L2 si accende.
+- Se un utente stava inserendo rifiuti, il processo viene interrotto e la Porta si chiude.
+- Gli operatori possono ripristinare lo stato normale del contenitore premendo il pulsante Ripristina nella GUI.
