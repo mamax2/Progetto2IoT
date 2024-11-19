@@ -52,14 +52,14 @@ void FSM::tick() {
         case EMPTYING:
                 hardware->reverseDoor();
                 currentState=IDLE;
-
+                
             break;
 
         case FULL:
             hardware->setGreenLED(false);
             hardware->setRedLED(true);
             hardware->displayMessage("CONTAINER FULL", "");
-            
+
             break;
     }
 }
