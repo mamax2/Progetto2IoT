@@ -9,11 +9,11 @@ void SerialManager::update() {
     if (Serial.available() > 0) {
         String command = Serial.readStringUntil('\n');
         if (command == "EMPTY") {
+            // Qui cambia lo stato, in FSM avvengono le operazioni relative allo stato
             Serial.println("Emptying container...");
-            hardware->openDoor();
-            delay(3000);
-            hardware->closeDoor();
+            delay(3000); // mettere costanti per i timer
             Serial.println("Container emptied.");
+           
         } else if (command == "RESTORE") {
             Serial.println("Restoring system...");
             hardware->setGreenLED(true);

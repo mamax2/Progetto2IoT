@@ -9,19 +9,21 @@ void FSM::init(HardwareManager* hw, SerialManager* sm) {
     serial = sm;
 }
 
-void FSM::update() {
+void FSM::tick() {
     switch (currentState) {
         case IDLE:
             hardware->setGreenLED(true);
             hardware->setRedLED(false);
             hardware->displayMessage("PRESS OPEN TO", "ENTER WASTE");
 
-            if (hardware->isUserDetected()) {
-                currentState = WAIT_OPEN;
+            /*
+            if (!hardware->isUserDetected()) {
+                currentState = SLEEPING;
             }
+            */
             break;
 
-        case WAIT_OPEN:
+        case OPEN:
             if (digitalRead(hardware->BUTTON_OPEN) == LOW) {
                 hardware->openDoor();
                 hardware->displayMessage("DOOR OPENED", "PRESS CLOSE");
@@ -30,7 +32,15 @@ void FSM::update() {
             }
             break;
 
-        case OPEN:
+        case SLEEPING:
+            /*
+            if (hardware->isUserDetected()) {
+                currentState = IDLE;
+            }
+            */
+            break;
+
+        case CLOSE:
             if (digitalRead(hardware->BUTTON_CLOSE) == LOW || millis() - stateStartTime > 10000) {
                 hardware->closeDoor();
                 hardware->displayMessage("WASTE RECEIVED", "THANK YOU!");
@@ -39,16 +49,17 @@ void FSM::update() {
             }
             break;
 
+        case EMPTYING:
+                hardware->reverseDoor();
+                currentState=IDLE;
+
+            break;
+
         case FULL:
             hardware->setGreenLED(false);
             hardware->setRedLED(true);
             hardware->displayMessage("CONTAINER FULL", "");
-            break;
-
-        case PROBLEM:
-            hardware->setGreenLED(false);
-            hardware->setRedLED(true);
-            hardware->displayMessage("PROBLEM DETECTED", "WAIT FOR RESTORE");
+            
             break;
     }
 }

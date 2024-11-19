@@ -39,6 +39,7 @@ public:
     // Controllo porta
     void openDoor();
     void closeDoor();
+    void reverseDoor();
 
     // Controllo LCD
     void displayMessage(const char* line1, const char* line2);

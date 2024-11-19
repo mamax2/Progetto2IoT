@@ -4,9 +4,9 @@
 #include "HardwareManager.h"
 #include "SerialManager.h"
 
-enum State { IDLE, WAIT_OPEN, OPEN, WAIT_CLOSE, FULL, PROBLEM };
+enum State { IDLE, SLEEPING, OPEN, CLOSE, FULL, EMPTYING};
 
-class FSM {
+class FSM : public Task {
 private:
     State currentState;
     HardwareManager* hardware;
@@ -16,7 +16,7 @@ private:
 public:
     FSM();                  // Costruttore
     void init(HardwareManager* hw, SerialManager* sm); // Inizializza la FSM
-    void update();          // Aggiorna la macchina a stati
+    void tick();          // Aggiorna la macchina a stati
 };
 
 #endif

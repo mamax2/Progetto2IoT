@@ -54,6 +54,10 @@ void HardwareManager::closeDoor() {
     doorServo.write(0);
 }
 
+void HardwareManager::reverseDoor() {
+    doorServo.write(-90);
+}
+
 void HardwareManager::displayMessage(const char* line1, const char* line2) {
     lcd.clear();
     lcd.print(line1);
