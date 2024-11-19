@@ -3,6 +3,7 @@
 
 #include <Servo.h>
 #include <LiquidCrystal_I2C.h>
+#include <pins_arduino.h>
 
 class HardwareManager {
 private:

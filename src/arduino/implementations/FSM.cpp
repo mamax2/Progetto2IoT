@@ -1,4 +1,6 @@
-#include "FSM.h"
+#include <Arduino.h>
+#include "../headers/FSM.h"
+#include "../headers/HardwareManager.h"
 
 FSM::FSM() : currentState(IDLE), stateStartTime(0) {}
 
