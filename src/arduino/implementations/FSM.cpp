@@ -12,19 +12,18 @@ void FSM::init(HardwareManager* hw, SerialManager* sm) {
 void FSM::tick() {
     switch (currentState) {
         case IDLE:
-            hardware->setGreenLED(true);
-            hardware->setRedLED(false);
-            hardware->displayMessage("PRESS OPEN TO", "ENTER WASTE");
-
-            /*
-            if (!hardware->isUserDetected()) {
+            if(hardware->isUserDetected()){
+                hardware->setGreenLED(true);
+                hardware->setRedLED(false);
+                hardware->displayMessage("PRESS OPEN TO", "ENTER WASTE");
+            }
+            else{
                 currentState = SLEEPING;
             }
-            */
             break;
 
         case OPEN:
-            if (digitalRead(hardware->BUTTON_OPEN) == LOW) {
+            if (digitalRead(hardware->BUTTON_OPEN) == LOW && hardware->isUserDetected()) {
                 hardware->openDoor();
                 hardware->displayMessage("DOOR OPENED", "PRESS CLOSE");
                 currentState = OPEN;
@@ -33,11 +32,9 @@ void FSM::tick() {
             break;
 
         case SLEEPING:
-            /*
             if (hardware->isUserDetected()) {
                 currentState = IDLE;
             }
-            */
             break;
 
         case CLOSE:
