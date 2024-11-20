@@ -10,6 +10,7 @@ void OperationTask::init(HardwareManager* hw, SerialManager* sm) {
 }
 
 void OperationTask::tick() {
+    Serial.Println("task operation");
     switch (currentState) {
         case IDLE:
             idle();

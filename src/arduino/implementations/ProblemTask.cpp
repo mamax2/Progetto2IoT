@@ -10,6 +10,7 @@ void ProblemTask::init(HardwareManager* hw, SerialManager* sm) {
 }
 
 void ProblemTask::tick() {
+    Serial.Println("task problem");
     switch (currentState) {
         case WORKING:
             working();
