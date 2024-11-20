@@ -3,12 +3,13 @@
 
 #include "HardwareManager.h"
 #include "SerialManager.h"
+#include "Task.h"
 
-enum State { IDLE, SLEEPING, OPEN, CLOSE, FULL, EMPTYING};
+enum OperationState { IDLE, SLEEPING, OPEN, CLOSE, FULL, EMPTYING};
 
-class OperationTask : public Task {
+class OperationTask: public Task {
 private:
-    State currentState;
+    OperationState currentState;
     HardwareManager* hardware;
     SerialManager* serial;
     unsigned long stateStartTime;

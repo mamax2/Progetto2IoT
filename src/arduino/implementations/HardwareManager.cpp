@@ -1,4 +1,4 @@
-#include "HardwareManager.h"
+#include "../headers/HardwareManager.h"
 
 HardwareManager::HardwareManager() : lcd(0x27, 16, 2) {}
 
@@ -14,10 +14,10 @@ void HardwareManager::init() {
     doorServo.attach(3);
     doorServo.write(0);
 
-    lcd.begin();
-    lcd.print("Initializing...");
-    delay(1000);
-    lcd.clear();
+    // lcd.begin();
+    //lcd.print("Initializing...");
+    // delay(1000);
+    // lcd.clear();
 }
 
 void HardwareManager::update() {

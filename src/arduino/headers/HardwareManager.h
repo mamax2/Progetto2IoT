@@ -2,19 +2,12 @@
 #define HARDWARE_MANAGER_H
 
 #include <Servo.h>
+#include <Arduino.h>
 #include <LiquidCrystal_I2C.h>
 #include <pins_arduino.h>
 
 class HardwareManager {
 private:
-    // Pin e componenti
-    const int PIR_PIN=5;
-    const int BUTTON_OPEN = 8;
-    const int BUTTON_CLOSE = 10;
-    const int TEMP_SENSOR = A2;
-    const int WASTE_SENSOR = 7;
-    const int GREEN_LED = 12;
-    const int RED_LED = 11;
     Servo doorServo;
     LiquidCrystal_I2C lcd;
 
@@ -23,6 +16,14 @@ private:
     bool userDetected;
 
 public:
+    // Pin e componenti
+    const int PIR_PIN=5;
+    const int BUTTON_OPEN = 8;
+    const int BUTTON_CLOSE = 10;
+    const int TEMP_SENSOR = A2;
+    const int WASTE_SENSOR = 7;
+    const int GREEN_LED = 12;
+    const int RED_LED = 11;
     HardwareManager();     // Costruttore
     void init();           // Inizializza tutti i componenti
     void update();         // Aggiorna i sensori e le variabili

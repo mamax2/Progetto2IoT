@@ -3,12 +3,13 @@
 
 #include "HardwareManager.h"
 #include "SerialManager.h"
+#include "Task.h"
 
-enum State { PROBLEM , WORKING};
+enum ProblemState { PROBLEM , WORKING};
 
-class ProblemTask : public Task {
+class ProblemTask: public Task {
 private:
-    State currentState;
+    ProblemState currentState;
     HardwareManager* hardware;
     SerialManager* serial;
     unsigned long stateStartTime;
