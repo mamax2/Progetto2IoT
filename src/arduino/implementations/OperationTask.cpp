@@ -37,7 +37,7 @@ void OperationTask::tick() {
     }
 }
 
-void idle(){
+void OperationTask::idle(){
     if(hardware->isUserDetected()){
         hardware->setGreenLED(true);
         hardware->setRedLED(false);
@@ -48,7 +48,7 @@ void idle(){
     }
 }
 
-void open(){
+void OperationTask::open(){
     if (digitalRead(hardware->BUTTON_OPEN) == LOW && hardware->isUserDetected()) {
         hardware->openDoor();
         hardware->displayMessage("DOOR OPENED", "PRESS CLOSE");
@@ -57,13 +57,13 @@ void open(){
     }
 }
 
-void sleeping(){
+void OperationTask::sleeping(){
     if (hardware->isUserDetected()) {
         currentState = IDLE;
     }
 }
 
-void close(){
+void OperationTask::close(){
     if (digitalRead(hardware->BUTTON_CLOSE) == LOW || millis() - stateStartTime > 10000) {
         hardware->closeDoor();
         hardware->displayMessage("WASTE RECEIVED", "THANK YOU!");
@@ -72,12 +72,12 @@ void close(){
     }
 }
 
-void emptying(){
+void OperationTask::emptying(){
     hardware->reverseDoor();
     currentState=IDLE;
 }
 
-void full(){
+void OperationTask::full(){
     hardware->setGreenLED(false);
     hardware->setRedLED(true);
     hardware->displayMessage("CONTAINER FULL", "");

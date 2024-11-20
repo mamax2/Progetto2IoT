@@ -21,10 +21,10 @@ void ProblemTask::tick() {
     }
 }
 
-void working(){
+void ProblemTask::working(){
     //put code here
 }
 
-void problem(){
+void ProblemTask::problem(){
     //put code here
 }
