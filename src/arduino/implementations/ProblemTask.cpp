@@ -10,7 +10,7 @@ void ProblemTask::init(HardwareManager* hw, SerialManager* sm) {
 }
 
 void ProblemTask::tick() {
-    //Serial.println("task problem");
+    Serial.println("task problem");
     switch (currentState) {
         case WORKING:
             working();
