@@ -23,7 +23,8 @@ void ProblemTask::tick() {
 }
 
 void ProblemTask::working(){
-    //put code here
+    Serial.println("Nessun problema ancora per poco...");
+    return;
 }
 
 void ProblemTask::problem() {
@@ -36,8 +37,8 @@ void ProblemTask::problem() {
                 currentState = WORKING;
                 return; 
             }
-            //fare in modo che ci sia un controllo.
+            //mettere qualche delay?
         }
-    }
 }
+
 
