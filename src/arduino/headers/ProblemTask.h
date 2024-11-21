@@ -12,6 +12,7 @@ private:
     ProblemState currentState;
     HardwareManager* hardware;
     SerialManager* serial;
+    const float TEMP_MAX = 15.0;
     unsigned long stateStartTime;
     void working();
     void problem();

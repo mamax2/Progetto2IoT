@@ -10,8 +10,7 @@ void ProblemTask::init(HardwareManager* hw, SerialManager* sm) {
 }
 
 void ProblemTask::tick() {
-    Serial.println("task problem");
-    /*
+    //Serial.println("task problem");
     switch (currentState) {
         case WORKING:
             working();
@@ -21,13 +20,24 @@ void ProblemTask::tick() {
             problem();
             break;
     }
-    */
 }
 
 void ProblemTask::working(){
     //put code here
 }
 
-void ProblemTask::problem(){
-    //put code here
+void ProblemTask::problem() {
+    if (hardware->getTemperature() > TEMP_MAX) {
+        Serial.println("Temperatura troppo alta! In attesa di restore...");
+            if (serial->receive()=="RESTORE") { 
+                Serial.println("Comando restore ricevuto. Ripristino in corso...");
+                hardware->setGreenLED(true);
+                hardware->setRedLED(false);
+                currentState = WORKING;
+                return; 
+            }
+            //fare in modo che ci sia un controllo.
+        }
+    }
 }
+

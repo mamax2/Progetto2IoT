@@ -6,7 +6,7 @@ void SerialManager::init() {
 }
 
 void SerialManager::update() {
-    if (Serial.available() > 0) {
+    if (Serial.available() != 0) {
         String command = Serial.readStringUntil('\n');
         if (command == "EMPTY") {
             // Qui cambia lo stato, in FSM avvengono le operazioni relative allo stato
@@ -17,8 +17,6 @@ void SerialManager::update() {
         } else if (command == "RESTORE") {
             Serial.println("Restoring system...");
             // anche qui cambio lo stato, in FSM faccio queste operazioni:
-            hardware->setGreenLED(true);
-            hardware->setRedLED(false);
         }
     }
 }
