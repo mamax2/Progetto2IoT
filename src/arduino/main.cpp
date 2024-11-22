@@ -1,13 +1,16 @@
+
 #include <Arduino.h>
 #include "headers/Scheduler.h"
 #include "headers/OperationTask.h"
 #include "headers/ProblemTask.h"
+#include "headers/SerialManager.h"
 
 Scheduler sched;
+SerialManager serialManager;
+
 
 void setup(){
   
-  Serial.begin(9600);
   sched.init(20);
  
   Task* t0 = new OperationTask();
@@ -18,6 +21,7 @@ void setup(){
   
   sched.addTask(t0);
   sched.addTask(t1);
+  serialManager.init();
 }
 
 void loop(){

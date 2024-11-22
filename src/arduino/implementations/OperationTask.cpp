@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include "../headers/OperationTask.h"
 #include "../headers/HardwareManager.h"
+#include "../headers/SerialManager.h"
 
 OperationTask::OperationTask() : currentState(IDLE), stateStartTime(0) {}
 
@@ -10,7 +11,8 @@ void OperationTask::init(HardwareManager* hw, SerialManager* sm) {
 }
 
 void OperationTask::tick() {
-    Serial.println("task operation");
+    serial->sendLevelOfWaste(90);
+    serial->sendTemperature(23.0);
     /*
     switch (currentState) {
         case IDLE:
