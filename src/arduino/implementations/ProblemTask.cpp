@@ -32,7 +32,7 @@ void ProblemTask::working(){
 }
 
 void ProblemTask::problem() {
-    if (serial->receive()=="RESTORE") { 
+    if (serial->handleCommand("RESTORE")) { 
         Serial.println("Comando restore ricevuto. Ripristino in corso...");
         hardware->setGreenLED(true);
         hardware->setRedLED(false);
