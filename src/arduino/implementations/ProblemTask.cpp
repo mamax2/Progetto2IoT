@@ -23,22 +23,23 @@ void ProblemTask::tick() {
 }
 
 void ProblemTask::working(){
-    Serial.println("Nessun problema ancora per poco...");
-    return;
+    Serial.println("Nessun problema, ancora per poco...");
+    if (hardware->getTemperature() > TEMP_MAX) {
+        Serial.println("Temperatura troppo alta! In attesa di restore...");
+        currentState=PROBLEM;
+        return;
+    }
 }
 
 void ProblemTask::problem() {
-    if (hardware->getTemperature() > TEMP_MAX) {
-        Serial.println("Temperatura troppo alta! In attesa di restore...");
-            if (serial->receive()=="RESTORE") { 
-                Serial.println("Comando restore ricevuto. Ripristino in corso...");
-                hardware->setGreenLED(true);
-                hardware->setRedLED(false);
-                currentState = WORKING;
-                return; 
-            }
-            //mettere qualche delay?
-        }
+    if (serial->receive()=="RESTORE") { 
+        Serial.println("Comando restore ricevuto. Ripristino in corso...");
+        hardware->setGreenLED(true);
+        hardware->setRedLED(false);
+        currentState = WORKING;
+        return; 
+    }
+    //mettere qualche delay?
 }
 
 
