@@ -1,5 +1,8 @@
 #include "../headers/SerialManager.h"
 
+String lastCommandForOperation = "";
+String lastCommandForProblem = "";
+
 void SerialManager::init() {
     Serial.begin(9600);
 }
@@ -14,6 +17,18 @@ void SerialManager::handleCommand(String command) {
     } else {
         Serial.println("Error: Unknown command."); // Comando sconosciuto
     }
+}
+
+String SerialManager::getCommandForOperationTask() {
+    String command = lastCommandForOperation;
+    lastCommandForOperation = "";
+    return command;
+}
+
+String SerialManager::getCommandForProblemTask() {
+    String command = lastCommandForProblem;
+    lastCommandForProblem = "";
+    return command;
 }
 
 
