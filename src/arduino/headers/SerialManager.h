@@ -12,6 +12,8 @@ public:
     void sendTemperature(float temperature);
     void sendLevelOfWaste(int levelOfWaste);
     void handleCommand(String command);
+    String getCommandForOperationTask();
+    String getCommandForProblemTask();
 };
 
 #endif
