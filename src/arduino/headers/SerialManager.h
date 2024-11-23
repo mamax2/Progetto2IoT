@@ -9,7 +9,9 @@ private:
 
 public:
     void init();
-    void update();
+    void sendTemperature(float temperature);
+    void sendLevelOfWaste(int levelOfWaste);
+    void handleCommand(String command);
 };
 
 #endif
