@@ -15,7 +15,7 @@ private:
     const float TEMP_MAX=15.0;
     unsigned long stateStartTime;
     void working();
-    void problem();
+    void problem(String command);
 
 public:
     ProblemTask();                  // Costruttore
