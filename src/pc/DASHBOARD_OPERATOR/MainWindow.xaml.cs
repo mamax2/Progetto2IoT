@@ -1,5 +1,5 @@
 ﻿using System;
-using System.IO.Ports;
+using System.IO.Ports; // Libreria per gestire la porta seriale.
 using System.Windows;
 using System.Windows.Threading;
 
@@ -7,7 +7,7 @@ using System.Windows.Threading;
 namespace DASHBOARD_OPERATORE
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Dashboard dell'operatore.
     /// </summary>
     public partial class MainWindow : Window
     {
@@ -21,7 +21,7 @@ namespace DASHBOARD_OPERATORE
             InitializeComponent();
             try
             {
-                InitializeSerialPort(PORT);
+                InitializeSerialPort();
                 _ = MessageBox.Show($"Connesso ad Arduino su {PORT}.", "Connessione Riuscita", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
@@ -34,19 +34,25 @@ namespace DASHBOARD_OPERATORE
 
         }
 
-        private void InitializeSerialPort(string portName)
+        /// <summary>
+        /// Metodo per inizializzare la comunicazione sulla porta seriale passata come argomento.
+        /// </summary>
+        private void InitializeSerialPort()
         {
-            if (!IsPortAvailable(portName))
+            if (!IsPortAvailable())
             {
-                throw new Exception("La porta specificata non è disponibile.");
+                throw new Exception("La porta specificata non è disponibile."); // Se le porta non è disponibile genera un'eccezione.
             }
-
-            serialPort = new SerialPort(portName, 9600);
+            serialPort = new SerialPort(PORT, 9600);
             serialPort.DataReceived += SerialPort_DataReceived;
             serialPort.Open();
         }
 
-        private bool IsPortAvailable(string portName)
+        /// <summary>
+        /// Metodo che controlla se la porta seriale è disponibile.
+        /// </summary>
+        /// <returns></returns>
+        private bool IsPortAvailable()
         {
             string[] availablePorts = SerialPort.GetPortNames();
             foreach (string port in availablePorts)
@@ -59,6 +65,13 @@ namespace DASHBOARD_OPERATORE
             return false;
         }
 
+        /// <summary>
+        /// Evento che si verifica quando viene premuto il pulsante empty.
+        /// Verifica se la porta seriale è aperta e non nulla e poi manda il comando ad arduino + un messaggio alla textbox per verificare 
+        /// l'effettivo successo dell' invio.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnEmpty_Click(object sender, RoutedEventArgs e)
         {
             if (serialPort.IsOpen && serialPort != null)
@@ -68,6 +81,13 @@ namespace DASHBOARD_OPERATORE
             }
         }
 
+        /// <summary>
+        /// Evento che si verifica quando viene premuto il pulsante restore.
+        /// Verifica se la porta seriale è aperta e non nulla e poi manda il comando ad arduino + un messaggio alla textbox per verificare 
+        /// l'effettivo successo dell' invio.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnRestore_Click(object sender, RoutedEventArgs e)
         {
             if (serialPort.IsOpen && serialPort != null)
@@ -77,6 +97,11 @@ namespace DASHBOARD_OPERATORE
             }
         }
 
+        /// <summary>
+        /// Evento che gestisce l'arrivo di dati da parte di arduino.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             if (!isReceiving)
@@ -124,7 +149,10 @@ namespace DASHBOARD_OPERATORE
 
 
 
-        // Chiudi la porta seriale quando l'app viene chiusa
+        /// <summary>
+        /// Evento per chiudere la porta seriale alla chiusura del programma.
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnClosed(EventArgs e)
         {
             if (serialPort != null)
@@ -137,12 +165,21 @@ namespace DASHBOARD_OPERATORE
             base.OnClosed(e);
         }
 
+        /// <summary>
+        /// Metodo per mostrare i comandi mandati e ricevuti da arduino.
+        /// </summary>
+        /// <param name="message"></param>
         private void LogMessage(string message)
         {
             LogTextBox.AppendText(message + "\n");
             LogTextBox.ScrollToEnd();
         }
 
+        /// <summary>
+        /// Pulsante di debug per fermare la ricezione di comandi da parte di arduino.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnStopReceiving_Click(object sender, RoutedEventArgs e)
         {
             isReceiving = !isReceiving;

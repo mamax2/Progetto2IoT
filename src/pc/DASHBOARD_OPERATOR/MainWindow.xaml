@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DASHBOARD_OPERATORE"
         mc:Ignorable="d"
+        ResizeMode="CanMinimize"
         Title="DASHBOARD OPERATOR" Height="431" Width="734">
 
     <Window.Resources>

@@ -3,6 +3,9 @@
 
 #include "HardwareManager.h"
 
+/**
+ * @brief Interfaccia della classe di gestione dell'interfaccia.
+ */
 class SerialManager {
 private:
     HardwareManager* hardware;
