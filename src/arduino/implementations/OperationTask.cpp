@@ -7,11 +7,15 @@ OperationTask::OperationTask() : currentState(IDLE), stateStartTime(0) {}
 void OperationTask::init(HardwareManager* hw, SerialManager* sm) {
     hardware = hw;
     serial = sm;
+    setupFlag = true; //flag usato per il setup degli stati, se lo stato ha bisogno di scrivere su lcd e accendere/spegnere led
+    problemFlag = false; //flag usato per bloccare la task quando si verifica un problema
 }
 
 void OperationTask::tick() {
     Serial.println("task operation");
-    /*
+    if(problemFlag){
+        return;
+    }
     switch (currentState) {
         case IDLE:
             idle();
@@ -37,17 +41,25 @@ void OperationTask::tick() {
             full();
             break;
     }
-    */
+    
 }
 
 void OperationTask::idle(){
     if(hardware->isUserDetected()){
-        hardware->setGreenLED(true);
-        hardware->setRedLED(false);
-        hardware->displayMessage("PRESS OPEN TO", "ENTER WASTE");
+        if(setup)
+        {
+            hardware->setGreenLED(true);
+            hardware->setRedLED(false);
+            hardware->displayMessage("PRESS OPEN TO", "ENTER WASTE");
+            setupFlag = false;
+        }
+
+        //controllo click bottone
+
     }
     else{
         currentState = SLEEPING;
+        setupFlag = true;
     }
 }
 
@@ -84,4 +96,9 @@ void OperationTask::full(){
     hardware->setGreenLED(false);
     hardware->setRedLED(true);
     hardware->displayMessage("CONTAINER FULL", "");
+}
+
+void OperationTask::setProblemFlag(bool value){
+    problemFlag = value;
+    return;
 }

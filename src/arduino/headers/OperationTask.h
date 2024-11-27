@@ -12,6 +12,8 @@ private:
     OperationState currentState;
     HardwareManager* hardware;
     SerialManager* serial;
+    bool problemFlag;
+    bool setupFlag;
     unsigned long stateStartTime;
     void idle();
     void open();
@@ -21,6 +23,7 @@ private:
     void sleeping();
 
 public:
+    void setProblemFlag(bool value);
     OperationTask();                  // Costruttore
     void init(HardwareManager* hw, SerialManager* sm); // Inizializza la OperationTask
     void tick();          // Aggiorna la macchina a stati
