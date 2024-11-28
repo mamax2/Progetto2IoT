@@ -44,7 +44,7 @@ void OperationTask::tick() {
     
 }
 
-//stato idle, normale funzionamento in attesa dell'input da utente per aprire il bidone, nel caso non venga rilevato nessuno davanti al bidone va in stato sleep
+//idle state, displaying message to the user "press open...", waiting for user click to open the bin and checking if user is in front of the bin
 void OperationTask::idle(){
     if(hardware->isUserDetected()){
         if(setupFlag)
@@ -55,12 +55,11 @@ void OperationTask::idle(){
             setupFlag = false;
         }
 
-        if(digitalRead(pinButtonOpen))
+        if(digitalRead(hardware->BUTTON_OPEN) == LOW)
         { //if button open is pressed -> move to open state
             currentState = OPEN;
             setupFlag = true;
         }
-
     }
     else
     {   //if no user detected in front of the bin -> move to sleeping state    
@@ -69,12 +68,21 @@ void OperationTask::idle(){
     }
 }
 
+
 void OperationTask::open(){
-    if (digitalRead(hardware->BUTTON_OPEN) == LOW && hardware->isUserDetected()) {
+    if(setupFlag)
+    {   //open state setup
+        hardware->displayMessage("DOOR OPENING", "PLEASE WAIT");
         hardware->openDoor();
         hardware->displayMessage("DOOR OPENED", "PRESS CLOSE");
-        currentState = OPEN;
+        setupFlag = false;
         stateStartTime = millis();
+    }
+
+    if(stateStartTime + openTime > millis() || digitalRead(hardware->BUTTON_CLOSE) == LOW)
+    { // if "openTime" seconds pass without user interaction (button close click) the door automatically close or the user click button close
+        currentState = close();
+        setupFlag = false;
     }
 }
 

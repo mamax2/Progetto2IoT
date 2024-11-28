@@ -15,8 +15,7 @@ private:
     bool problemFlag;
     bool setupFlag;
     unsigned long stateStartTime;
-    const int pinButtonOpen = 8;
-    const int pinButtonClose = 10;
+    const unsigned long openTime = 5000; //time the bin should remain open without any user interaction (close button click)
     void idle();
     void open();
     void emptying();
