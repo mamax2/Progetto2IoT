@@ -15,6 +15,8 @@ private:
     bool problemFlag;
     bool setupFlag;
     unsigned long stateStartTime;
+    const int pinButtonOpen = 8;
+    const int pinButtonClose = 10;
     void idle();
     void open();
     void emptying();

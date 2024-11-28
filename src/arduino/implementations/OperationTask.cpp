@@ -44,20 +44,26 @@ void OperationTask::tick() {
     
 }
 
+//stato idle, normale funzionamento in attesa dell'input da utente per aprire il bidone, nel caso non venga rilevato nessuno davanti al bidone va in stato sleep
 void OperationTask::idle(){
     if(hardware->isUserDetected()){
-        if(setup)
-        {
+        if(setupFlag)
+        {   //setUp task idle
             hardware->setGreenLED(true);
             hardware->setRedLED(false);
             hardware->displayMessage("PRESS OPEN TO", "ENTER WASTE");
             setupFlag = false;
         }
 
-        //controllo click bottone
+        if(digitalRead(pinButtonOpen))
+        { //if button open is pressed -> move to open state
+            currentState = OPEN;
+            setupFlag = true;
+        }
 
     }
-    else{
+    else
+    {   //if no user detected in front of the bin -> move to sleeping state    
         currentState = SLEEPING;
         setupFlag = true;
     }
