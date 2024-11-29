@@ -128,12 +128,29 @@ void OperationTask::emptying(){
 }
 
 void OperationTask::full(){
-    hardware->setGreenLED(false);
-    hardware->setRedLED(true);
-    hardware->displayMessage("CONTAINER FULL", "");
+    if(setupFlag)
+    {
+        hardware->displayMessage("CONTAINER FULL","");
+        hardware->closeDoor();
+        hardware->setGreenLED(false);
+        hardware->setRedLED(true);
+        setupFlag = false;
+    }
+
+    if(emptyFlag){
+        currentState = EMPTYING;
+        setupFlag = true;
+        emptyFlag = false;
+    }
 }
 
 void OperationTask::setProblemFlag(bool value){
     problemFlag = value;
     return;
+}
+
+void OperationTask::emptyContainer(){
+    if(currentState == FULL){
+        emptyFlag = true;
+    }
 }

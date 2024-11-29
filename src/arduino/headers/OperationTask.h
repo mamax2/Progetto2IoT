@@ -14,6 +14,7 @@ private:
     SerialManager* serial;
     bool problemFlag;
     bool setupFlag;
+    bool emptyFlag;
     unsigned long stateStartTime;
     const unsigned long openTime = 5000; //time the bin should remain open without any user interaction (close button click)
     const unsigned long closeTime = 3000; //time to wait after door close
@@ -27,6 +28,7 @@ private:
     void sleeping();
 
 public:
+    void emptyContainer();
     void setProblemFlag(bool value);
     OperationTask();                  // Costruttore
     void init(HardwareManager* hw, SerialManager* sm); // Inizializza la OperationTask
