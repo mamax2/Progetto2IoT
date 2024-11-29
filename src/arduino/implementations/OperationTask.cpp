@@ -9,6 +9,7 @@ void OperationTask::init(HardwareManager* hw, SerialManager* sm) {
     serial = sm;
     setupFlag = true; //flag usato per il setup degli stati, se lo stato ha bisogno di scrivere su lcd e accendere/spegnere led
     problemFlag = false; //flag usato per bloccare la task quando si verifica un problema
+    emptyWasteLevel = hardware->getWasteLevel();
 }
 
 void OperationTask::tick() {
@@ -80,25 +81,45 @@ void OperationTask::open(){
     }
 
     if(stateStartTime + openTime > millis() || digitalRead(hardware->BUTTON_CLOSE) == LOW)
-    { // if "openTime" seconds pass without user interaction (button close click) the door automatically close or the user click button close
-        currentState = close();
-        setupFlag = false;
+    {   //if "openTime" seconds pass without user interaction (button close click) the door automatically close or the user click button close
+        currentState = CLOSE;
+        setupFlag = true;
+    }
+
+    if(hardware->getWasteLevel() >= maximumWasteLevel)
+    {   //if bin get full -> go to full state and wait for operator emptying process
+        currentState = FULL;
+        setupFlag = true;
     }
 }
 
 void OperationTask::sleeping(){
+    if(setupFlag){
+        hardware->displayMessage("", "");
+        setupFlag = false;
+    }
+    
     if (hardware->isUserDetected()) {
         currentState = IDLE;
+        setupFlag = true;
     }
 }
 
 void OperationTask::close(){
-    if (digitalRead(hardware->BUTTON_CLOSE) == LOW || millis() - stateStartTime > 10000) {
+    if(setupFlag)
+    {
+        hardware->displayMessage("WASTE RECEIVED","THANK YOU");
         hardware->closeDoor();
-        hardware->displayMessage("WASTE RECEIVED", "THANK YOU!");
-        delay(2000);
-        currentState = IDLE;
+        setupFlag = false;
+        stateStartTime = millis();
     }
+
+    if(stateStartTime + closeTime > millis())
+    {   //when T2 time pass the task will go back to idle
+        currentState = IDLE;
+        setupFlag = true;
+    }
+    
 }
 
 void OperationTask::emptying(){

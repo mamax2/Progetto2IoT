@@ -16,6 +16,9 @@ private:
     bool setupFlag;
     unsigned long stateStartTime;
     const unsigned long openTime = 5000; //time the bin should remain open without any user interaction (close button click)
+    const unsigned long closeTime = 3000; //time to wait after door close
+    int emptyWasteLevel;
+    const int maximumWasteLevel = 100 //da decidere
     void idle();
     void open();
     void emptying();
