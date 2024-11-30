@@ -117,6 +117,6 @@ void OperationTask::setProblemFlag(bool value){
     return;
 }
 
-void OperationTask::getProblemFlag(){
+bool OperationTask::getProblemFlag(){
     return problemFlag;
 }
