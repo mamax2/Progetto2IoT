@@ -4,6 +4,7 @@
 #include "HardwareManager.h"
 #include "SerialManager.h"
 #include "Task.h"
+#include "OperationTask.h"
 
 enum ProblemState { PROBLEM , WORKING};
 
@@ -12,6 +13,8 @@ private:
     ProblemState currentState;
     HardwareManager* hardware;
     SerialManager* serial;
+    OperationTask* operationtask;
+    
     const float TEMP_MAX=15.0;
     unsigned long stateStartTime;
     void working();
@@ -19,7 +22,7 @@ private:
 
 public:
     ProblemTask();                  // Costruttore
-    void init(HardwareManager* hw, SerialManager* sm); // Inizializza la ProblemTask
+    void init(HardwareManager* hw, SerialManager* sm, OperationTask* ot ); // Inizializza la ProblemTask
     void tick();          // Aggiorna la macchina a stati
 };
 

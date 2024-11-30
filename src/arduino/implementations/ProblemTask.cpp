@@ -4,9 +4,10 @@
 
 ProblemTask::ProblemTask() : currentState(WORKING), stateStartTime(0) {}
 
-void ProblemTask::init(HardwareManager* hw, SerialManager* sm) {
+void ProblemTask::init(HardwareManager* hw, SerialManager* sm, OperationTask* ot) {
     hardware = hw;
     serial = sm;
+    operationtask=ot;
 }
 
 void ProblemTask::tick() {
@@ -31,6 +32,7 @@ void ProblemTask::working(){
     if (hardware->getTemperature() > TEMP_MAX) {
         Serial.println("High Temperature!!! wait for restore command");
         currentState=PROBLEM;
+        operationtask->setProblemFlag(true);
         return;
     }
 }

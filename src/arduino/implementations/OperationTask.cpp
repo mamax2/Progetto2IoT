@@ -1,7 +1,6 @@
 #include <Arduino.h>
 #include "../headers/OperationTask.h"
 #include "../headers/HardwareManager.h"
-#include "../headers/SerialManager.h"
 
 OperationTask::OperationTask() : currentState(IDLE), stateStartTime(0) {}
 
@@ -10,13 +9,9 @@ void OperationTask::init(HardwareManager* hw, SerialManager* sm) {
     serial = sm;
     setupFlag = true; //flag usato per il setup degli stati, se lo stato ha bisogno di scrivere su lcd e accendere/spegnere led
     problemFlag = false; //flag usato per bloccare la task quando si verifica un problema
-    emptyWasteLevel = hardware->getWasteLevel();
 }
 
 void OperationTask::tick() {
-    serial->sendLevelOfWaste(90);
-    serial->sendTemperature(23.0);
-    /*
     Serial.println("task operation");
     if(problemFlag){
         return;
@@ -85,93 +80,43 @@ void OperationTask::open(){
     }
 
     if(stateStartTime + openTime > millis() || digitalRead(hardware->BUTTON_CLOSE) == LOW)
-    {   //if "openTime" seconds pass without user interaction (button close click) the door automatically close or the user click button close
-        currentState = CLOSE;
-        setupFlag = true;
-    }
-
-    if(hardware->getWasteLevel() >= maximumWasteLevel)
-    {   //if bin get full -> go to full state and wait for operator emptying process
-        currentState = FULL;
-        setupFlag = true;
+    { // if "openTime" seconds pass without user interaction (button close click) the door automatically close or the user click button close
+        currentState = close();
+        setupFlag = false;
     }
 }
 
 void OperationTask::sleeping(){
-    if(setupFlag)
-    {   //sleeping state setup, clearing lcd
-        hardware->displayMessage("", "");
-        setupFlag = false;
-    }
-    
-    if (hardware->isUserDetected()) 
-    {   //if user is detected go back to idle
+    if (hardware->isUserDetected()) {
         currentState = IDLE;
-        setupFlag = true;
     }
 }
 
 void OperationTask::close(){
-    if(setupFlag)
-    {   //close state setup, closing door and displaying message
-        hardware->displayMessage("WASTE RECEIVED","THANK YOU");
+    if (digitalRead(hardware->BUTTON_CLOSE) == LOW || millis() - stateStartTime > 10000) {
         hardware->closeDoor();
-        setupFlag = false;
-        stateStartTime = millis();
-    }
-
-    if(stateStartTime + closeTime > millis())
-    {   //when T2 time pass the task will go back to idle
+        hardware->displayMessage("WASTE RECEIVED", "THANK YOU!");
+        delay(2000);
         currentState = IDLE;
-        setupFlag = true;
     }
-    
 }
 
 void OperationTask::emptying(){
-    if(setupFlag)
-    {   //emptying task setup, displaying message and reversing door
-        hardware->displayMessage("EMPTYING IN","PROGRESS");
-        hardware->reverseDoor();
-        setupFlag = false;
-        stateStartTime = millis();
-    }
-    
-    if(stateStartTime + emptyingTime > millis())
-    {   //after t3 seconds the door close and go back to idle state
-        hardware->closeDoor();
-        currentState=IDLE;
-        setupFlag = true;
-    }
+    hardware->reverseDoor();
+    currentState=IDLE;
 }
 
 void OperationTask::full(){
-    if(setupFlag)
-    {   //full state setup, displaying message and closing the door, setting the led as requested
-        hardware->displayMessage("CONTAINER FULL","");
-        hardware->closeDoor();
-        hardware->setGreenLED(false);
-        hardware->setRedLED(true);
-        setupFlag = false;
-    }
-
-    if(emptyFlag)
-    {   //if empty flag is turned true by the operator from the dashboard the container go to emptying state
-        currentState = EMPTYING;
-        setupFlag = true;
-        emptyFlag = false;
-    }
+    hardware->setGreenLED(false);
+    hardware->setRedLED(true);
+    hardware->displayMessage("CONTAINER FULL", "");
 }
 
-//function used to access problem flag from problemTask
 void OperationTask::setProblemFlag(bool value){
     problemFlag = value;
     return;
 }
 
-//function used to access empty flag from serial manager
-void OperationTask::emptyContainer(){
-    if(currentState == FULL){
-        emptyFlag = true;
-    }
+void OperationTask::getProblemFlag(){
+    return problemFlag;
 }
