@@ -1,4 +1,5 @@
 #include "../headers/SerialManager.h"
+#include "../headers/OperationTask.h"
 
 void SerialManager::init() {
     Serial.begin(9600);
@@ -12,11 +13,13 @@ void SerialManager::update() {
             // Qui cambia lo stato, in FSM avvengono le operazioni relative allo stato
             Serial.println("Emptying container...");
             delay(3000); // mettere costanti per i timer
+            OperationTask->emptyContainer();
             Serial.println("Container emptied.");
            
         } else if (command == "RESTORE") {
             Serial.println("Restoring system...");
             // anche qui cambio lo stato, in FSM faccio queste operazioni:
+            OperationTask->setProblemFlag(false);
             hardware->setGreenLED(true);
             hardware->setRedLED(false);
         }

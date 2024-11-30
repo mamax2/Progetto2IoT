@@ -94,12 +94,14 @@ void OperationTask::open(){
 }
 
 void OperationTask::sleeping(){
-    if(setupFlag){
+    if(setupFlag)
+    {   //sleeping state setup, clearing lcd
         hardware->displayMessage("", "");
         setupFlag = false;
     }
     
-    if (hardware->isUserDetected()) {
+    if (hardware->isUserDetected()) 
+    {   //if user is detected go back to idle
         currentState = IDLE;
         setupFlag = true;
     }
@@ -107,7 +109,7 @@ void OperationTask::sleeping(){
 
 void OperationTask::close(){
     if(setupFlag)
-    {
+    {   //close state setup, closing door and displaying message
         hardware->displayMessage("WASTE RECEIVED","THANK YOU");
         hardware->closeDoor();
         setupFlag = false;
@@ -123,13 +125,25 @@ void OperationTask::close(){
 }
 
 void OperationTask::emptying(){
-    hardware->reverseDoor();
-    currentState=IDLE;
+    if(setupFlag)
+    {   //emptying task setup, displaying message and reversing door
+        hardware->displayMessage("EMPTYING IN","PROGRESS");
+        hardware->reverseDoor();
+        setupFlag = false;
+        stateStartTime = millis();
+    }
+    
+    if(stateStartTime + emptyingTime > millis())
+    {   //after t3 seconds the door close and go back to idle state
+        hardware->closeDoor();
+        currentState=IDLE;
+        setupFlag = true;
+    }
 }
 
 void OperationTask::full(){
     if(setupFlag)
-    {
+    {   //full state setup, displaying message and closing the door, setting the led as requested
         hardware->displayMessage("CONTAINER FULL","");
         hardware->closeDoor();
         hardware->setGreenLED(false);
@@ -137,18 +151,21 @@ void OperationTask::full(){
         setupFlag = false;
     }
 
-    if(emptyFlag){
+    if(emptyFlag)
+    {   //if empty flag is turned true by the operator from the dashboard the container go to emptying state
         currentState = EMPTYING;
         setupFlag = true;
         emptyFlag = false;
     }
 }
 
+//function used to access problem flag from problemTask
 void OperationTask::setProblemFlag(bool value){
     problemFlag = value;
     return;
 }
 
+//function used to access empty flag from serial manager
 void OperationTask::emptyContainer(){
     if(currentState == FULL){
         emptyFlag = true;
