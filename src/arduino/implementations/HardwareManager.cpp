@@ -11,8 +11,7 @@ void HardwareManager::init() {
     pinMode(ECHO_WASTE_SENSOR, INPUT); // Sets the echoPin as an Input
     pinMode(GREEN_LED, OUTPUT);
     pinMode(RED_LED, OUTPUT);
-    
-    Serial.println("servo lcd");
+
     //doorServo.attach(3);
     //doorServo.write(0);
 
@@ -25,8 +24,9 @@ void HardwareManager::init() {
     lcd.print("Initializing...");
     delay(1000);
     lcd.clear();
-    Serial.println("FINITO SETUP HW MANAGER");
     */
+    Serial.println("FINITO SETUP HW MANAGER");
+    
 }
 
 void HardwareManager::update() {

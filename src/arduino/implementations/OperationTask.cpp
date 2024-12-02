@@ -25,32 +25,27 @@ void OperationTask::tick() {
     //}
     switch (currentState) {
         case IDLE:
-            Serial.println("idle task");
             idle();
             break;
 
         case OPEN:
-            Serial.println("open task");
             open();
             break;
 
         case SLEEPING:
-            Serial.println("sleeping task");
+            
             sleeping();
             break;
 
         case CLOSE:
-            Serial.println("close task");
             close();
             break;
 
         case EMPTYING:
-            Serial.println("emptying task");
             emptying();
             break;
 
         case FULL:
-            Serial.println("full task");
             full();
             break;
     }
@@ -62,13 +57,10 @@ void OperationTask::idle() {
     if(true){
         if(setupFlag)
         {   //setUp task idle
-            Serial.println("step1");
+            Serial.println("idle task");
             hardware->setGreenLED(HIGH);
-            Serial.println("step2");
             hardware->setRedLED(LOW);
-            Serial.println("step3");
             hardware->displayMessage("PRESS OPEN", "ENTER WASTE");
-            Serial.println("step4");
             setupFlag = false;
         }
 
@@ -89,6 +81,7 @@ void OperationTask::idle() {
 void OperationTask::open(){
     if(setupFlag)
     {   //open state setup
+        Serial.println("open task");
         hardware->displayMessage("DOOR OPENING", "PLEASE WAIT");
         hardware->openDoor();
         hardware->displayMessage("DOOR OPENED", "PRESS CLOSE");
@@ -112,6 +105,7 @@ void OperationTask::open(){
 void OperationTask::sleeping(){
     if(setupFlag)
     {   //sleeping state setup, clearing lcd
+        Serial.println("sleeping task");
         hardware->displayMessage("", "");
         setupFlag = false;
     }
@@ -126,6 +120,7 @@ void OperationTask::sleeping(){
 void OperationTask::close(){
     if(setupFlag)
     {   //close state setup, closing door and displaying message
+        Serial.println("close task");
         hardware->displayMessage("WASTE RECEIVED","THANK YOU");
         hardware->closeDoor();
         setupFlag = false;
@@ -143,6 +138,7 @@ void OperationTask::close(){
 void OperationTask::emptying(){
     if(setupFlag)
     {   //emptying task setup, displaying message and reversing door
+        Serial.println("emptying task");
         hardware->displayMessage("EMPTYING IN","PROGRESS");
         hardware->reverseDoor();
         setupFlag = false;
@@ -160,6 +156,7 @@ void OperationTask::emptying(){
 void OperationTask::full(){
     if(setupFlag)
     {   //full state setup, displaying message and closing the door, setting the led as requested
+        Serial.println("full task");
         hardware->displayMessage("CONTAINER FULL","");
         hardware->closeDoor();
         hardware->setGreenLED(false);
