@@ -13,8 +13,8 @@ void OperationTask::init(HardwareManager* hw, SerialManager* sm) {
 }
 
 void OperationTask::tick() {
-    HardwareManager.update();
-    Serial.println(HardwareManager.getWasteLevel(););
+    HardwareManager->update();
+    Serial.println(HardwareManager->getWasteLevel());
     if(problemFlag){
         return;
     }
@@ -47,7 +47,7 @@ void OperationTask::tick() {
 }
 
 //idle state, displaying message to the user "press open...", waiting for user click to open the bin and checking if user is in front of the bin
-void OperationTask::idle(){
+void OperationTask::idle() {
     if(hardware->isUserDetected()){
         if(setupFlag)
         {   //setUp task idle
@@ -164,6 +164,11 @@ void OperationTask::full(){
 void OperationTask::setProblemFlag(bool value){
     problemFlag = value;
     return;
+}
+
+
+bool OperationTask::getProblemFlag(){
+    return problemFlag;
 }
 
 //function used to access empty flag from serial manager

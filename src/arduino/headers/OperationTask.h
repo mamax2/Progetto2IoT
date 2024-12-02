@@ -20,7 +20,7 @@ private:
     const unsigned long closeTime = 3000; //time to wait after door close
     const unsigned long emptyingTime = 3000; //time to wait while emptying
     int emptyWasteLevel;
-    const int maximumWasteLevel = 100 //da decidere
+    const int maximumWasteLevel = 100; //da decidere
     void idle();
     void open();
     void emptying();
@@ -31,6 +31,7 @@ private:
 public:
     void emptyContainer(); //set full flag to true
     void setProblemFlag(bool value);    //set problem flag
+    bool getProblemFlag();
     OperationTask();                  // Costruttore
     void init(HardwareManager* hw, SerialManager* sm); // Inizializza la OperationTask
     void tick();          // Aggiorna la macchina a stati
