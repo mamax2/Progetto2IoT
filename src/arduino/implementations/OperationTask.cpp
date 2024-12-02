@@ -13,7 +13,8 @@ void OperationTask::init(HardwareManager* hw, SerialManager* sm) {
 }
 
 void OperationTask::tick() {
-    Serial.println("task operation");
+    HardwareManager.update();
+    Serial.println(HardwareManager.getWasteLevel(););
     if(problemFlag){
         return;
     }
