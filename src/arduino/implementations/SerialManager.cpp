@@ -17,10 +17,10 @@ void SerialManager::init() {
 void SerialManager::handleCommand(String command) {
     Serial.println("Received command: " + command); // Log comando ricevuto
 
-    if (command == "EMPTY") {
+    if (command.find("EMPTY")) {
         Serial.println("Action: EMPTY command executed."); // Feedback per EMPTY
         lastCommandForOperation = "EMPTY";
-    } else if (command == "RESTORE") {
+    } else if (command.find("RESTORE")) {
         Serial.println("Action: RESTORE command executed."); // Feedback per RESTORE
         lastCommandForProblem = "RESTORE";
     } else {
