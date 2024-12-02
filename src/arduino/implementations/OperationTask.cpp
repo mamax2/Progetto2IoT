@@ -167,7 +167,7 @@ void OperationTask::full(){
         setupFlag = false;
     }
 
-    Serial.println(serial->getCommandForOperationTask());
+    serial->handleCommand(Serial.readStringUntil('\n'));
     if(serial->getCommandForOperationTask() == "EMPTY")
     {   //if empty flag is turned true by the operator from the dashboard the container go to emptying state
         currentState = EMPTYING;

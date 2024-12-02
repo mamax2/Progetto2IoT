@@ -38,5 +38,4 @@ void setup(){
 
 void loop(){
   sched.schedule();
-  sw->handleCommand(Serial.readStringUntil('\n'));
 }
