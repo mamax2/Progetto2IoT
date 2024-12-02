@@ -28,7 +28,7 @@ void ProblemTask::tick() {
 }
 
 void ProblemTask::working(){
-    Serial.println("No problems");
+    //Serial.println("No problems");
     if (hardware->getTemperature() > TEMP_MAX && operationtask->getProblemFlag()==false) {
         Serial.println("High Temperature!!! wait for restore command");
         currentState=PROBLEM;

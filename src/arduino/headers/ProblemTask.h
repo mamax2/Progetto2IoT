@@ -15,7 +15,7 @@ private:
     SerialManager* serial;
     OperationTask* operationtask;
     
-    const float TEMP_MAX=15.0;
+    const float TEMP_MAX=30.0;
     unsigned long stateStartTime;
     void working();
     void problem(String command);

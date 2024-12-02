@@ -21,7 +21,8 @@ public:
     const int BUTTON_OPEN = 8;
     const int BUTTON_CLOSE = 10;
     const int TEMP_SENSOR = A2;
-    const int WASTE_SENSOR = 7;
+    const int ECHO_WASTE_SENSOR = 7;
+    const int TRIG_WASTE_SENSOR = 6;
     const int GREEN_LED = 12;
     const int RED_LED = 11;
     HardwareManager();     // Costruttore

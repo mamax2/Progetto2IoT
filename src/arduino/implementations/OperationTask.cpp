@@ -9,17 +9,20 @@ void OperationTask::init(HardwareManager* hw, SerialManager* sm) {
     serial = sm;
     setupFlag = true; //flag usato per il setup degli stati, se lo stato ha bisogno di scrivere su lcd e accendere/spegnere led
     problemFlag = false; //flag usato per bloccare la task quando si verifica un problema
+    hardware->update();
     emptyWasteLevel = hardware->getWasteLevel();
 }
 
 void OperationTask::tick() {
-    HardwareManager->update();
-    Serial.println(HardwareManager->getWasteLevel());
-    if(problemFlag){
-        return;
-    }
+    Serial.println("operation task");
+    hardware->update();
+    //Serial.println(hardware->getWasteLevel());
+    //if(problemFlag){
+    //    return;
+    //}
     switch (currentState) {
         case IDLE:
+            Serial.println("idle task");
             idle();
             break;
 
@@ -28,6 +31,7 @@ void OperationTask::tick() {
             break;
 
         case SLEEPING:
+            Serial.println("sleeping task");
             sleeping();
             break;
 
@@ -48,12 +52,16 @@ void OperationTask::tick() {
 
 //idle state, displaying message to the user "press open...", waiting for user click to open the bin and checking if user is in front of the bin
 void OperationTask::idle() {
-    if(hardware->isUserDetected()){
+    if(true){
         if(setupFlag)
         {   //setUp task idle
-            hardware->setGreenLED(true);
-            hardware->setRedLED(false);
-            hardware->displayMessage("PRESS OPEN TO", "ENTER WASTE");
+            Serial.println("step1");
+            hardware->setGreenLED(HIGH);
+            Serial.println("step2");
+            hardware->setRedLED(LOW);
+            Serial.println("step3");
+            hardware->displayMessage("PRESS OPEN", "ENTER WASTE");
+            Serial.println("step4");
             setupFlag = false;
         }
 
