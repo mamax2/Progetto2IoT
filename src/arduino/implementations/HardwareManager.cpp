@@ -17,6 +17,7 @@ void HardwareManager::init() {
     //doorServo.write(0);
 
     //initializing lcd
+    /*
     Serial.println("init lcd");
     lcd.begin(16,2);
     lcd.backlight();
@@ -25,6 +26,7 @@ void HardwareManager::init() {
     delay(1000);
     lcd.clear();
     Serial.println("FINITO SETUP HW MANAGER");
+    */
 }
 
 void HardwareManager::update() {
@@ -73,9 +75,11 @@ void HardwareManager::reverseDoor() {
 }
 
 void HardwareManager::displayMessage(const char* line1, const char* line2) {
+    /*
     lcd.clear();
     lcd.setCursor(0, 0);
     lcd.print(line1);
     lcd.setCursor(0, 1);
     lcd.print(line2);
+    */
 }
