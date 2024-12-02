@@ -11,7 +11,7 @@ void ProblemTask::init(HardwareManager* hw, SerialManager* sm, OperationTask* ot
 }
 
 void ProblemTask::tick() {
-    Serial.println("task problem");
+    //Serial.println("task problem");
     
     String command = serial->getCommandForProblemTask();
     

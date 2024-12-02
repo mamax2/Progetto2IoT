@@ -1,22 +1,26 @@
 #include "../headers/HardwareManager.h"
 
-HardwareManager::HardwareManager() : lcd(0x27, 16, 2) {}
+HardwareManager::HardwareManager() : lcd(0x27,  16, 2){}
 
 void HardwareManager::init() {
     pinMode(PIR_PIN, INPUT);
-    pinMode(BUTTON_OPEN, INPUT_PULLUP);
-    pinMode(BUTTON_CLOSE, INPUT_PULLUP);
+    pinMode(BUTTON_OPEN, INPUT);
+    pinMode(BUTTON_CLOSE, INPUT);
     pinMode(TEMP_SENSOR, INPUT);
     pinMode(TRIG_WASTE_SENSOR, OUTPUT); // Sets the trigPin as an Output
     pinMode(ECHO_WASTE_SENSOR, INPUT); // Sets the echoPin as an Input
     pinMode(GREEN_LED, OUTPUT);
     pinMode(RED_LED, OUTPUT);
+    
+    Serial.println("servo lcd");
+    //doorServo.attach(3);
+    //doorServo.write(0);
 
-    doorServo.attach(3);
-    doorServo.write(0);
-
+    //initializing lcd
+    Serial.println("init lcd");
     lcd.init();
     lcd.backlight();
+    lcd.setCursor(0,0);
     lcd.print("Initializing...");
     delay(1000);
     lcd.clear();
@@ -69,6 +73,7 @@ void HardwareManager::reverseDoor() {
 
 void HardwareManager::displayMessage(const char* line1, const char* line2) {
     lcd.clear();
+    lcd.setCursor(0, 0);
     lcd.print(line1);
     lcd.setCursor(0, 1);
     lcd.print(line2);

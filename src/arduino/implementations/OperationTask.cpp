@@ -2,11 +2,13 @@
 #include "../headers/OperationTask.h"
 #include "../headers/HardwareManager.h"
 
-OperationTask::OperationTask() : currentState(IDLE), stateStartTime(0) {}
-
-void OperationTask::init(HardwareManager* hw, SerialManager* sm) {
+OperationTask::OperationTask(HardwareManager* hw) : currentState(IDLE), stateStartTime(0) {
     hardware = hw;
-    serial = sm;
+    init();
+}
+
+void OperationTask::init() {
+    Serial.println("INIT OPERATION TASK");
     setupFlag = true; //flag usato per il setup degli stati, se lo stato ha bisogno di scrivere su lcd e accendere/spegnere led
     problemFlag = false; //flag usato per bloccare la task quando si verifica un problema
     hardware->update();
@@ -14,7 +16,7 @@ void OperationTask::init(HardwareManager* hw, SerialManager* sm) {
 }
 
 void OperationTask::tick() {
-    Serial.println("operation task");
+    //Serial.println(currentState);
     hardware->update();
     //Serial.println(hardware->getWasteLevel());
     //if(problemFlag){
@@ -27,6 +29,7 @@ void OperationTask::tick() {
             break;
 
         case OPEN:
+            Serial.println("open task");
             open();
             break;
 
@@ -36,14 +39,17 @@ void OperationTask::tick() {
             break;
 
         case CLOSE:
+            Serial.println("close task");
             close();
             break;
 
         case EMPTYING:
+            Serial.println("emptying task");
             emptying();
             break;
 
         case FULL:
+            Serial.println("full task");
             full();
             break;
     }
@@ -65,7 +71,7 @@ void OperationTask::idle() {
             setupFlag = false;
         }
 
-        if(digitalRead(hardware->BUTTON_OPEN) == LOW)
+        if(digitalRead(hardware->BUTTON_OPEN) == HIGH)
         { //if button open is pressed -> move to open state
             currentState = OPEN;
             setupFlag = true;
@@ -89,13 +95,13 @@ void OperationTask::open(){
         stateStartTime = millis();
     }
 
-    if(stateStartTime + openTime > millis() || digitalRead(hardware->BUTTON_CLOSE) == LOW)
+    if((stateStartTime + openTime < millis())/* || (digitalRead(hardware->BUTTON_CLOSE) == LOW)*/)
     {   //if "openTime" seconds pass without user interaction (button close click) the door automatically close or the user click button close
         currentState = CLOSE;
         setupFlag = true;
     }
 
-    if(hardware->getWasteLevel() >= maximumWasteLevel)
+    if(hardware->getWasteLevel() <= maximumWasteLevel)
     {   //if bin get full -> go to full state and wait for operator emptying process
         currentState = FULL;
         setupFlag = true;
@@ -125,7 +131,7 @@ void OperationTask::close(){
         stateStartTime = millis();
     }
 
-    if(stateStartTime + closeTime > millis())
+    if(stateStartTime + closeTime < millis())
     {   //when T2 time pass the task will go back to idle
         currentState = IDLE;
         setupFlag = true;
@@ -142,7 +148,7 @@ void OperationTask::emptying(){
         stateStartTime = millis();
     }
     
-    if(stateStartTime + emptyingTime > millis())
+    if(stateStartTime + emptyingTime < millis())
     {   //after t3 seconds the door close and go back to idle state
         hardware->closeDoor();
         currentState=IDLE;
