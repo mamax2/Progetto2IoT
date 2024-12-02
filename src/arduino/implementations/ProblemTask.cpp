@@ -2,12 +2,15 @@
 #include "../headers/ProblemTask.h"
 #include "../headers/HardwareManager.h"
 
-ProblemTask::ProblemTask() : currentState(WORKING), stateStartTime(0) {}
-
-void ProblemTask::init(HardwareManager* hw, SerialManager* sm, OperationTask* ot) {
+ProblemTask::ProblemTask(HardwareManager* hw, SerialManager* sm, OperationTask* ot) : currentState(WORKING), stateStartTime(0) {
     hardware = hw;
     serial = sm;
     operationtask=ot;
+    init();
+}
+
+void ProblemTask::init() {
+
 }
 
 void ProblemTask::tick() {

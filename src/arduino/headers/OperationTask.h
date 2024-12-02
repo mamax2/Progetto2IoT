@@ -32,7 +32,7 @@ public:
     void emptyContainer(); //set full flag to true
     void setProblemFlag(bool value);    //set problem flag
     bool getProblemFlag();
-    OperationTask(HardwareManager* hw);                  // Costruttore
+    OperationTask(HardwareManager* hw, SerialManager* sw);                  // Costruttore
     void init(); // Inizializza la OperationTask
     void tick();          // Aggiorna la macchina a stati
 };

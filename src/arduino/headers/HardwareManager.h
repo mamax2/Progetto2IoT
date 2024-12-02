@@ -5,6 +5,7 @@
 #include <Arduino.h>
 #include <LiquidCrystal_I2C.h>
 #include <pins_arduino.h>
+#include <Wire.h>
 
 class HardwareManager {
 private:

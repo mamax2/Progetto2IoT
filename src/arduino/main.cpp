@@ -7,20 +7,28 @@
 #include "headers/HardwareManager.h"
 
 Scheduler sched;
-SerialManager serialManager;
-HardwareManager* hw = new HardwareManager();
+SerialManager* sw;
+HardwareManager* hw;
+OperationTask* ot;
+ProblemTask* pt;
 
 void setup(){
-  
+  Serial.begin(9600);
+  Serial.println("SETUP PARTITO");
+  hw = new HardwareManager();
   hw->init();
+  sw = new SerialManager();
+  sw->init();
   sched.init(20);
-  
-  serialManager.init();
+
+  ot = new OperationTask(hw,sw);
+  pt = new ProblemTask(hw,sw,ot);
+
  
-  Task* t0 = new OperationTask(hw);
+  Task* t0 = ot;
   t0->init(20);
 
-  Task* t1 = new ProblemTask();
+  Task* t1 = pt;
   t1->init(100);
   
   sched.addTask(t0);

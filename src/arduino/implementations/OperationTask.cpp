@@ -2,8 +2,9 @@
 #include "../headers/OperationTask.h"
 #include "../headers/HardwareManager.h"
 
-OperationTask::OperationTask(HardwareManager* hw) : currentState(IDLE), stateStartTime(0) {
+OperationTask::OperationTask(HardwareManager* hw, SerialManager* sw) : currentState(IDLE), stateStartTime(0) {
     hardware = hw;
+    serial = sw;
     init();
 }
 
@@ -166,7 +167,7 @@ void OperationTask::full(){
         setupFlag = false;
     }
 
-    if(emptyFlag)
+    if(serial->getCommandForOperationTask() == "EMPTY")
     {   //if empty flag is turned true by the operator from the dashboard the container go to emptying state
         currentState = EMPTYING;
         setupFlag = true;

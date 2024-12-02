@@ -21,8 +21,8 @@ private:
     void problem(String command);
 
 public:
-    ProblemTask();                  // Costruttore
-    void init(HardwareManager* hw, SerialManager* sm, OperationTask* ot ); // Inizializza la ProblemTask
+    ProblemTask(HardwareManager* hw, SerialManager* sm, OperationTask* ot );                  // Costruttore
+    void init(); // Inizializza la ProblemTask
     void tick();          // Aggiorna la macchina a stati
 };
 

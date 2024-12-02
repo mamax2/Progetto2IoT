@@ -1,6 +1,6 @@
 #include "../headers/HardwareManager.h"
 
-HardwareManager::HardwareManager() : lcd(0x27,  16, 2){}
+HardwareManager::HardwareManager() : lcd(0x27,  16, 2) {}
 
 void HardwareManager::init() {
     pinMode(PIR_PIN, INPUT);
@@ -18,12 +18,13 @@ void HardwareManager::init() {
 
     //initializing lcd
     Serial.println("init lcd");
-    lcd.init();
+    lcd.begin(16,2);
     lcd.backlight();
     lcd.setCursor(0,0);
     lcd.print("Initializing...");
     delay(1000);
     lcd.clear();
+    Serial.println("FINITO SETUP HW MANAGER");
 }
 
 void HardwareManager::update() {
