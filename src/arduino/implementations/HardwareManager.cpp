@@ -39,7 +39,6 @@ void HardwareManager::update() {
     delayMicroseconds(10);
     digitalWrite(TRIG_WASTE_SENSOR, LOW);
     wasteLevel = pulseIn(ECHO_WASTE_SENSOR, HIGH) * 0.034 / 2;
-    Serial.println(wasteLevel);
 }
 
 bool HardwareManager::isUserDetected() {
