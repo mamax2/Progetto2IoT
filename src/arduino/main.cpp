@@ -14,7 +14,6 @@ ProblemTask* pt;
 
 void setup(){
   Serial.begin(9600);
-  Serial.println("SETUP PARTITO");
   hw = new HardwareManager();
   hw->init();
   sw = new SerialManager();

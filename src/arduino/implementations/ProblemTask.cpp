@@ -26,7 +26,6 @@ void ProblemTask::tick() {
 
 void ProblemTask::working(){
     if (hardware->getTemperature() > TEMP_MAX && operationtask->getProblemFlag()==false) {
-        //Serial.println("High Temperature!!! wait for restore command");
         operationtask->setProblemFlag(true);
         hardware->setGreenLED(false);
         hardware->setRedLED(true);
@@ -40,7 +39,6 @@ void ProblemTask::working(){
 void ProblemTask::problem() {
     serial->handleCommand(Serial.readStringUntil('\n'));
     if (serial->getCommandForProblemTask() == "RESTORE") {
-        //Serial.println("ProblemTask: RESTORE command received. Returning to WORKING state.");
         currentState = WORKING;
         hardware->setGreenLED(LOW);
         hardware->setRedLED(HIGH);

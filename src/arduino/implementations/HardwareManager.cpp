@@ -16,13 +16,7 @@ void HardwareManager::init() {
     doorServo.write(0);
 
     //initializing lcd
-    Serial.println("init lcd");
     lcd.begin(16,2);
-    lcd.setCursor(0,0);
-    lcd.print("Initializing...");
-    lcd.clear();
-    Serial.println("FINITO SETUP HW MANAGER");
-    
 }
 
 void HardwareManager::update() {

@@ -16,12 +16,10 @@ void OperationTask::init() {
 }
 
 void OperationTask::tick() {
-    //Serial.println(currentState);
     hardware->update();
     if(millis()%3==0){
         serial->sendTemperature(hardware->getTemperature());
     }
-    //Serial.println(hardware->getWasteLevel());
     if(problemFlag){
         return;
     }
@@ -88,8 +86,6 @@ void OperationTask::open(){
         setupFlag = false;
         stateStartTime = millis();
     }
-
-    Serial.println(digitalRead(hardware->BUTTON_CLOSE));
 
     if((millis() - stateStartTime > openTime) || digitalRead(hardware->BUTTON_CLOSE))
     {   //if "openTime" seconds pass without user interaction (button close click) the door automatically close or the user click button close

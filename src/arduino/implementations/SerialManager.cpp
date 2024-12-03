@@ -15,7 +15,6 @@ void SerialManager::init() {
  * @param command: Contiene il comando ricevuto.
  */
 void SerialManager::handleCommand(String command) {
-    Serial.println("Received command: " + command); // Log comando ricevuto
 
     if (command == "EMPTY") {
         Serial.println("Action: EMPTY command executed."); // Feedback per EMPTY
