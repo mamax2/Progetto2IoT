@@ -1,6 +1,6 @@
 #include "../headers/HardwareManager.h"
 
-HardwareManager::HardwareManager() : lcd(0x27,  16, 2) {}
+HardwareManager::HardwareManager() : lcd(RS_PIN, EN, D4, D5, D6, D7) {}
 
 void HardwareManager::init() {
     pinMode(PIR_PIN, INPUT);
@@ -12,19 +12,15 @@ void HardwareManager::init() {
     pinMode(GREEN_LED, OUTPUT);
     pinMode(RED_LED, OUTPUT);
 
-    //doorServo.attach(3);
-    //doorServo.write(0);
+    doorServo.attach(3);
+    doorServo.write(0);
 
     //initializing lcd
-    /*
     Serial.println("init lcd");
     lcd.begin(16,2);
-    lcd.backlight();
     lcd.setCursor(0,0);
     lcd.print("Initializing...");
-    delay(1000);
     lcd.clear();
-    */
     Serial.println("FINITO SETUP HW MANAGER");
     
 }
@@ -74,11 +70,9 @@ void HardwareManager::reverseDoor() {
 }
 
 void HardwareManager::displayMessage(const char* line1, const char* line2) {
-    /*
     lcd.clear();
     lcd.setCursor(0, 0);
     lcd.print(line1);
     lcd.setCursor(0, 1);
     lcd.print(line2);
-    */
 }

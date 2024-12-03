@@ -3,14 +3,14 @@
 
 #include <Servo.h>
 #include <Arduino.h>
-#include <LiquidCrystal_I2C.h>
+#include <LiquidCrystal.h>
 #include <pins_arduino.h>
 #include <Wire.h>
 
 class HardwareManager {
 private:
     Servo doorServo;
-    LiquidCrystal_I2C lcd;
+    LiquidCrystal lcd;
 
     float temperature;
     int wasteLevel;
@@ -26,6 +26,13 @@ public:
     const int TRIG_WASTE_SENSOR = 6;
     const int GREEN_LED = 12;
     const int RED_LED = 11;
+    const int RS_PIN=4;
+    const int EN=2;
+    const int D4=A1;
+    const int D5=A3;
+    const int D6=A4;
+    const int D7=A5;
+
     HardwareManager();     // Costruttore
     void init();           // Inizializza tutti i componenti
     void update();         // Aggiorna i sensori e le variabili
