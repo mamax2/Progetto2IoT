@@ -21,13 +21,14 @@ private:
     const unsigned long emptyingTime = 3000; //time to wait while emptying
     int emptyWasteLevel;
     const int maximumWasteLevel = 5; //da decidere
-    const int minimumWasteLevel = 400; // quando arriva a questa distanza il wasteLevel è a 0
+    const int minimumWasteLevel = 30; // quando arriva a questa distanza il wasteLevel è a 0
     void idle();
     void open();
     void emptying();
     void full();
     void close();
     void sleeping();
+    void sendWasteLevelInPercentage();
 
 public:
     void emptyContainer(); //set full flag to true

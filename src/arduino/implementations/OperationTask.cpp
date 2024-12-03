@@ -24,8 +24,8 @@ void OperationTask::tick() {
     //}
     switch (currentState) {
         case IDLE:
-            //serial->sendTemperature(hardware->getTemperature());
-            //serial->sendLevelOfWaste(hardware->getWasteLevel());
+            serial->sendTemperature(hardware->getTemperature());
+            sendWasteLevelInPercentage();
             idle();
             break;
 
@@ -47,7 +47,7 @@ void OperationTask::tick() {
             break;
 
         case FULL:
-            //serial->sendLevelOfWaste(hardware->getWasteLevel());
+            sendWasteLevelInPercentage();
             full();
             break;
     }
@@ -181,5 +181,16 @@ bool OperationTask::getProblemFlag(){
 void OperationTask::emptyContainer(){
     if(currentState == FULL){
         emptyFlag = true;
+    }
+}
+
+void OperationTask::sendWasteLevelInPercentage(){
+    int wasteLevel = hardware->getWasteLevel();
+    if(wasteLevel >= minimumWasteLevel){
+        serial->sendLevelOfWaste(0);
+    }else if(wasteLevel <= maximumWasteLevel){
+        serial->sendLevelOfWaste(100);
+    }else{
+        serial->sendLevelOfWaste(100 - ((100 / (minimumWasteLevel - maximumWasteLevel)) * wasteLevel));
     }
 }
