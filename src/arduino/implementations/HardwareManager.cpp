@@ -27,7 +27,9 @@ void HardwareManager::init() {
 
 void HardwareManager::update() {
     userDetected = digitalRead(PIR_PIN);
-    temperature = analogRead(TEMP_SENSOR) * (5.0 / 1023.0) * 100;
+    int rawValue = analogRead(TEMP_SENSOR); // Leggi il valore analogico (0-1023)
+    float voltage = rawValue * (5.0 / 1023.0); // Converti in tensione (0-5V)
+    temperature = (voltage-0.5) * 100.0; // 10 mV per grado Celsius (LM35)
     digitalWrite(TRIG_WASTE_SENSOR, LOW);
     delayMicroseconds(2);
     // Sets the trigPin on HIGH state for 10 micro seconds
