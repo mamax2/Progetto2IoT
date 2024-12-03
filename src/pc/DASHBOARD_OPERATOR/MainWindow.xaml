@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:DASHBOARD_OPERATORE"
         mc:Ignorable="d"
         ResizeMode="CanMinimize"
-        Title="DASHBOARD OPERATOR" Height="431" Width="734">
+        Title="DASHBOARD OPERATOR" Height="467" Width="760">
 
     <Window.Resources>
         <Style x:Key="FlatButton" TargetType="Button">
@@ -29,22 +29,26 @@
 
 
     <Grid>
-        <Button x:Name="btnEmpty" Style="{StaticResource FlatButton}" Content="Empty" HorizontalAlignment="Left" Margin="20,348,0,0" VerticalAlignment="Top" Click="btnEmpty_Click" Width="75"/>
-        <Button x:Name="btnRestore" Style="{StaticResource FlatButton}" Content="Restore" HorizontalAlignment="Left" Margin="636,348,0,0" VerticalAlignment="Top" Click="btnRestore_Click"/>
-        <Button x:Name="btnStopReceiving" Content="On/Off" Click="btnStopReceiving_Click" Margin="20,267,649,109" />
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="759*"/>
+        </Grid.ColumnDefinitions>
+        <Button x:Name="btnEmpty" Style="{StaticResource FlatButton}" Content="Empty" HorizontalAlignment="Left" Margin="18,378,0,0" VerticalAlignment="Top" Click="btnEmpty_Click" Width="75" FontSize="18" Grid.Column="1" RenderTransformOrigin="0.425,-0.135"/>
+        <Button x:Name="btnRestore" Style="{StaticResource FlatButton}" Content="Restore" HorizontalAlignment="Left" Margin="660,378,0,0" VerticalAlignment="Top" Click="btnRestore_Click" FontSize="18" Grid.Column="1"/>
+        <Button x:Name="btnStopReceiving" Content="On/Off" Click="btnStopReceiving_Click" Margin="8,257,659,118" FontSize="20" Grid.Column="1" />
 
-        <GroupBox Header="Monitoring state of the container" FontSize="16" Padding="10" Margin="20,13,36,207">
-            <StackPanel Orientation="Vertical" Margin="0,0,0,15">
+        <GroupBox Header="Monitoring state of the container" FontSize="20" Padding="10" Margin="18,13,36,199" Grid.Column="1">
+            <StackPanel Orientation="Vertical" Height="173" Margin="0,0,-13,0">
 
                 <!-- Sezione per il Livello di Riempimento -->
-                <TextBlock Text="Level of waste:" FontSize="14" Margin="0,0,0,5"/>
-                <ProgressBar Name="FillLevelProgressBar" Minimum="0" Maximum="100" Height="20" Width="200" Value="50" />
-                <TextBlock Name="FillLevelText" Text="50%" FontSize="12" HorizontalAlignment="Center" Margin="0,5,0,15" />
+                <TextBlock Text="Level of waste:" FontSize="25" Margin="0,0,0,5"/>
+                <ProgressBar Name="FillLevelProgressBar" Minimum="0" Maximum="100" Height="20" Width="310" />
+                <TextBlock Name="FillLevelText" Text="0%" FontSize="25" HorizontalAlignment="Center" Margin="0,5,0,15" Width="108" IsEnabled="False" />
 
                 <!-- Sezione per la Temperatura (layout orizzontale) -->
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,5,0,0">
-                    <TextBlock Text="Temperature:" FontSize="14" VerticalAlignment="Center" Margin="0,0,10,0" Width="88"/>
-                    <TextBlock x:Name="TemperatureText" Text="25°C" FontSize="12" VerticalAlignment="Center" Height="18" Width="40" />
+                    <TextBlock Text="Temperature:" FontSize="25" Width="235" Height="58"/>
+                    <TextBlock x:Name="TemperatureText" Text="25°C" FontSize="25" Height="36" Width="73" />
                 </StackPanel>
             </StackPanel>
 
@@ -52,7 +56,7 @@
         <TextBox x:Name="LogTextBox" 
          VerticalScrollBarVisibility="Auto" 
          IsReadOnly="True"
-         Margin="107,218,103,22" 
-         TextWrapping="Wrap" />
+         Margin="106,257,103,22" 
+         TextWrapping="Wrap" Grid.Column="1" />
     </Grid>
 </Window>

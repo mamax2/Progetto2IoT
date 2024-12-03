@@ -25,29 +25,25 @@ void OperationTask::tick() {
     }
     switch (currentState) {
         case IDLE:
-            sendWasteLevelInPercentage();
             idle();
             break;
-
         case OPEN:
+            sendWasteLevelInPercentage();
             open();
             break;
-
         case SLEEPING:
-            
             sleeping();
             break;
-
         case CLOSE:
             close();
             break;
 
         case EMPTYING:
+            sendWasteLevelInPercentage();
             emptying();
             break;
 
         case FULL:
-            sendWasteLevelInPercentage();
             full();
             break;
     }
