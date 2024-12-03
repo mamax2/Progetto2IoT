@@ -1,4 +1,15 @@
-
+/**
+ * @file smart_waste_disposal.cpp
+ * @author Roberto Pisu (roberto.pisu@studio.unibo.it)
+ * @author Giacomo Ruscelli (giacomo.ruscelli@studio.unibo.it)
+ * @author Sohail Mama (sohail.mama@studio.unibo.it)
+ * @brief Assignment 2 of IoT course.
+ * @version 0.1
+ * @date 2024-12-03
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
 #include <Arduino.h>
 #include "headers/Scheduler.h"
 #include "headers/OperationTask.h"
