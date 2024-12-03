@@ -55,7 +55,7 @@ void OperationTask::tick() {
 
 //idle state, displaying message to the user "press open...", waiting for user click to open the bin and checking if user is in front of the bin
 void OperationTask::idle() {
-    if(true){
+    if(hardware->isUserDetected()){
         if(setupFlag)
         {   //setUp task idle
             hardware->setGreenLED(HIGH);
