@@ -11,7 +11,6 @@ class HardwareManager {
 private:
     Servo doorServo;
     LiquidCrystal lcd;
-
     float temperature;
     int wasteLevel;
     bool userDetected;

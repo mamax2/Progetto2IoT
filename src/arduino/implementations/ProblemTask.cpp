@@ -9,15 +9,9 @@ ProblemTask::ProblemTask(HardwareManager* hw, SerialManager* sm, OperationTask* 
     init();
 }
 
-void ProblemTask::init() {
-
-}
+void ProblemTask::init() {}
 
 void ProblemTask::tick() {
-    //Serial.println("task problem");
-    
-    String command = serial->getCommandForProblemTask();
-    
 
     switch (currentState) {
         case WORKING:
@@ -25,28 +19,32 @@ void ProblemTask::tick() {
             break;
 
         case PROBLEM:
-            problem(command);
+            problem();
             break;
     }
 }
 
 void ProblemTask::working(){
-    //Serial.println("No problems");
     if (hardware->getTemperature() > TEMP_MAX && operationtask->getProblemFlag()==false) {
         //Serial.println("High Temperature!!! wait for restore command");
-        currentState=PROBLEM;
         operationtask->setProblemFlag(true);
+        hardware->setGreenLED(false);
+        hardware->setRedLED(true);
+        hardware->closeDoor();
+        hardware->displayMessage("PROBLEM","DETECTED");
+        currentState=PROBLEM;
         return;
     }
 }
 
-void ProblemTask::problem(String command) {
-   if (command == "RESTORE") {
+void ProblemTask::problem() {
+    serial->handleCommand(Serial.readStringUntil('\n'));
+    if (serial->getCommandForProblemTask() == "RESTORE") {
         //Serial.println("ProblemTask: RESTORE command received. Returning to WORKING state.");
         currentState = WORKING;
         hardware->setGreenLED(LOW);
         hardware->setRedLED(HIGH);
-
+        operationtask->setProblemFlag(false);
         stateStartTime = millis();
         return;
     }

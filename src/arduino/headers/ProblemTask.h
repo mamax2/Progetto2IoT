@@ -15,10 +15,10 @@ private:
     SerialManager* serial;
     OperationTask* operationtask;
     
-    const float TEMP_MAX=30.0;
+    const float TEMP_MAX=38.0;
     unsigned long stateStartTime;
     void working();
-    void problem(String command);
+    void problem();
 
 public:
     ProblemTask(HardwareManager* hw, SerialManager* sm, OperationTask* ot );                  // Costruttore

@@ -18,13 +18,15 @@ void OperationTask::init() {
 void OperationTask::tick() {
     //Serial.println(currentState);
     hardware->update();
+    if(millis()%3==0){
+        serial->sendTemperature(hardware->getTemperature());
+    }
     //Serial.println(hardware->getWasteLevel());
-    //if(problemFlag){
-    //    return;
-    //}
+    if(problemFlag){
+        return;
+    }
     switch (currentState) {
         case IDLE:
-            serial->sendTemperature(hardware->getTemperature());
             sendWasteLevelInPercentage();
             idle();
             break;
@@ -169,6 +171,9 @@ void OperationTask::full(){
 //function used to access problem flag from problemTask
 void OperationTask::setProblemFlag(bool value){
     problemFlag = value;
+    if(!value){
+        setupFlag = true;
+    }
     return;
 }
 
@@ -191,6 +196,14 @@ void OperationTask::sendWasteLevelInPercentage(){
     }else if(wasteLevel <= maximumWasteLevel){
         serial->sendLevelOfWaste(100);
     }else{
-        serial->sendLevelOfWaste(100 - ((100 / (minimumWasteLevel - maximumWasteLevel)) * wasteLevel));
+        int temp = 100 - ((100 / (minimumWasteLevel - maximumWasteLevel)) * wasteLevel);
+        if(temp > 100){
+            serial->sendLevelOfWaste(100);
+        } else if(temp<0) {
+            serial->sendLevelOfWaste(0);
+        }else{
+            serial->sendLevelOfWaste(temp);
+        }
+        
     }
 }
