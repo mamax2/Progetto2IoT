@@ -69,7 +69,7 @@ void HardwareManager::reverseDoor() {
     doorServo.write(-90);
 }
 
-void HardwareManager::displayMessage(const char* line1, const char* line2) {
+void HardwareManager::displayMessage(String line1, String line2) {
     lcd.clear();
     lcd.setCursor(0, 0);
     lcd.print(line1);

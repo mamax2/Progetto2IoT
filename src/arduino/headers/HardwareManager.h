@@ -52,7 +52,7 @@ public:
     void reverseDoor();
 
     // Controllo LCD
-    void displayMessage(const char* line1, const char* line2);
+    void displayMessage(String line1, String line2);
 };
 
 #endif
