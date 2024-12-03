@@ -25,6 +25,8 @@ void OperationTask::tick() {
     //}
     switch (currentState) {
         case IDLE:
+            Serial.println(serial->sendTemperature(hardware->getTemperature()))
+            Serial.println(serial->sendLevelOfWaste(hardware->getLevelOfWaste()))
             idle();
             break;
 
@@ -46,10 +48,10 @@ void OperationTask::tick() {
             break;
 
         case FULL:
+            Serial.println(serial->sendLevelOfWaste(hardware->getLevelOfWaste()))
             full();
             break;
     }
-    
 }
 
 //idle state, displaying message to the user "press open...", waiting for user click to open the bin and checking if user is in front of the bin
@@ -76,7 +78,6 @@ void OperationTask::idle() {
         setupFlag = true;
     }
 }
-
 
 void OperationTask::open(){
     if(setupFlag)
@@ -132,7 +133,6 @@ void OperationTask::close(){
         currentState = IDLE;
         setupFlag = true;
     }
-    
 }
 
 void OperationTask::emptying(){

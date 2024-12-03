@@ -19,10 +19,10 @@ void SerialManager::handleCommand(String command) {
 
     if (command == "EMPTY") {
         Serial.println("Action: EMPTY command executed."); // Feedback per EMPTY
-        lastCommandForOperation = "EMPTY";
+        lastCommandForOperation = command;
     } else if (command == "RESTORE") {
         Serial.println("Action: RESTORE command executed."); // Feedback per RESTORE
-        lastCommandForProblem = "RESTORE";
+        lastCommandForProblem = command;
     } else {
         Serial.println("Error: Unknown command."); // Comando sconosciuto
     }

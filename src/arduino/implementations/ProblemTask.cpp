@@ -48,5 +48,3 @@ void ProblemTask::problem(String command) {
         return;
     }
 }
-
-
