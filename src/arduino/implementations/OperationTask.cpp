@@ -89,17 +89,20 @@ void OperationTask::open(){
         stateStartTime = millis();
     }
 
-    if((stateStartTime + openTime < millis())/* || (digitalRead(hardware->BUTTON_CLOSE) == LOW)*/)
+    Serial.println(digitalRead(hardware->BUTTON_CLOSE));
+
+    if((millis() - stateStartTime > openTime) || digitalRead(hardware->BUTTON_CLOSE))
     {   //if "openTime" seconds pass without user interaction (button close click) the door automatically close or the user click button close
         currentState = CLOSE;
         setupFlag = true;
     }
-
+    
     if(hardware->getWasteLevel() <= maximumWasteLevel)
     {   //if bin get full -> go to full state and wait for operator emptying process
         currentState = FULL;
         setupFlag = true;
     }
+    
 }
 
 void OperationTask::sleeping(){
@@ -125,7 +128,7 @@ void OperationTask::close(){
         stateStartTime = millis();
     }
 
-    if(stateStartTime + closeTime < millis())
+    if(millis() - stateStartTime > closeTime)
     {   //when T2 time pass the task will go back to idle
         currentState = IDLE;
         setupFlag = true;
