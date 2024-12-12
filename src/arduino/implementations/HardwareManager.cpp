@@ -62,7 +62,7 @@ void HardwareManager::closeDoor() {
 }
 
 void HardwareManager::reverseDoor() {
-    doorServo.write(-90);
+    doorServo.write(180);
 }
 
 void HardwareManager::displayMessage(String line1, String line2) {

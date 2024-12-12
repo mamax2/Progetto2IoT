@@ -1,15 +1,16 @@
 #ifndef HARDWARE_MANAGER_H
 #define HARDWARE_MANAGER_H
 
-#include <Servo.h>
+
 #include <Arduino.h>
+#include <ServoTimer2.h>
 #include <LiquidCrystal.h>
 #include <pins_arduino.h>
 #include <Wire.h>
 
 class HardwareManager {
 private:
-    Servo doorServo;
+    ServoTimer2 doorServo;
     LiquidCrystal lcd;
     float temperature;
     int wasteLevel;
