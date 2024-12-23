@@ -3,6 +3,7 @@
 
 #include <ServoTimer2.h>
 #include <Arduino.h>
+#include <ServoTimer2.h>
 #include <LiquidCrystal.h>
 #include <pins_arduino.h>
 #include <Wire.h>
