@@ -13,7 +13,7 @@ void HardwareManager::init() {
     pinMode(RED_LED, OUTPUT);
 
     doorServo.attach(3);
-    doorServo.write(0);
+    moveMotor(90);
 
     //initializing lcd
     lcd.begin(16,2);
@@ -54,15 +54,25 @@ void HardwareManager::setRedLED(bool state) {
 }
 
 void HardwareManager::openDoor() {
-    doorServo.write(90);
+    moveMotor(180);
 }
 
 void HardwareManager::closeDoor() {
-    doorServo.write(0);
+    moveMotor(90);
 }
 
 void HardwareManager::reverseDoor() {
-    doorServo.write(180);
+    moveMotor(0);
+}
+
+void HardwareManager::moveMotor(int pos){
+    if (pos > 180){
+		pos = 180;
+	} else if (pos < 0){
+		pos = 0;
+	}
+  float coeff = (2400.0-544.0)/180;
+  doorServo.write(544 + pos*coeff); 
 }
 
 void HardwareManager::displayMessage(String line1, String line2) {

@@ -12,7 +12,6 @@ void OperationTask::init() {
     setupFlag = true; //flag usato per il setup degli stati, se lo stato ha bisogno di scrivere su lcd e accendere/spegnere led
     problemFlag = false; //flag usato per bloccare la task quando si verifica un problema
     hardware->update();
-    emptyWasteLevel = hardware->getWasteLevel();
 }
 
 void OperationTask::tick() {
@@ -89,7 +88,7 @@ void OperationTask::open(){
         setupFlag = true;
     }
     
-    if(hardware->getWasteLevel() <= maximumWasteLevel)
+    if(hardware->getWasteLevel() <= maximumWasteLevel && millis() - stateStartTime > 1000)
     {   //if bin get full -> go to full state and wait for operator emptying process
         currentState = FULL;
         setupFlag = true;
@@ -201,4 +200,5 @@ void OperationTask::sendWasteLevelInPercentage(){
         }
         
     }
+    
 }

@@ -1,7 +1,6 @@
 #ifndef HARDWARE_MANAGER_H
 #define HARDWARE_MANAGER_H
 
-#include <ServoTimer2.h>
 #include <Arduino.h>
 #include <ServoTimer2.h>
 #include <LiquidCrystal.h>
@@ -50,9 +49,11 @@ public:
     void openDoor();
     void closeDoor();
     void reverseDoor();
+    void moveMotor(int pos);
 
     // Controllo LCD
     void displayMessage(String line1, String line2);
+
 };
 
 #endif
